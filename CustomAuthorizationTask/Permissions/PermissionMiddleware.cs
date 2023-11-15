@@ -10,8 +10,12 @@ namespace CustomAuthorizationTask.Permissions
     public class PermissionMiddleware
     {
         private readonly RequestDelegate _requestDelegate;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
+
+        public PermissionMiddleware(RequestDelegate requestDelegate)
+        {
+            _requestDelegate = requestDelegate;
+        }
+
 
         public async Task Invoke(HttpContext context, UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
         {
@@ -37,6 +41,11 @@ namespace CustomAuthorizationTask.Permissions
 
             // Get the roles assigned to the user
             var roles = await userManager.GetRolesAsync(user);
+
+            //if(roles.Any(claim=>claim.Value == ))
+            //{
+            //    await _requestDelegate(context);    
+            //}
 
             // Check permissions for each role
             foreach (var role in roles)

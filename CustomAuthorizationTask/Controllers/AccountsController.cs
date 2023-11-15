@@ -89,13 +89,22 @@ namespace CustomAuthorizationTask.Controllers
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("Permission", Permissions.Permissions.Products.View),
-                new Claim("Permission", Permissions.Permissions.Products.Create),
-                new Claim("Permission", Permissions.Permissions.Catagory.View)
+
             };
 
             foreach (var role in roles.ToList())
             {
+                var roleClaims = await GetRoleClaimsAsync(role);
+
+                // Fetch permission claims from the database
+                var permissionClaims = roleClaims
+                    .Where(c => c.Type == "Permission")
+                    .ToList();
+
+                foreach (var permissionClaim in permissionClaims)
+                {
+                    claims.Add(new Claim("Permission", permissionClaim.Value));
+                }
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
@@ -113,6 +122,22 @@ namespace CustomAuthorizationTask.Controllers
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
+        }
+
+        //get claims
+        private async Task<List<Claim>> GetRoleClaimsAsync(string roleName)
+        {
+            var roleClaims = new List<Claim>();
+
+            var role = await _roleManager.FindByNameAsync(roleName.ToUpper());
+
+            if (role != null)
+            {
+                var userClaims = await _roleManager.GetClaimsAsync(role);
+                roleClaims.AddRange(userClaims.ToList());
+            }
+
+            return roleClaims;
         }
     }
 }
