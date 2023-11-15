@@ -1,7 +1,9 @@
 using CustomAuthorizationTask.Data;
+using CustomAuthorizationTask.Handler;
 using CustomAuthorizationTask.Models;
 using CustomAuthorizationTask.Permissions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -33,6 +35,8 @@ namespace CustomAuthorizationTask
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddDefaultTokenProviders();
+
+            builder.Services.AddTransient<IAuthorizationHandler, RolesInDBAuthorizationHandler>();
 
             builder.Services.AddAuthorization(options =>
             {

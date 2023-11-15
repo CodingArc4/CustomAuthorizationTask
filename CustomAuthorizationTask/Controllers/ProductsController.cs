@@ -21,7 +21,7 @@ namespace CustomAuthorizationTask.Controllers
         }
 
         [HttpGet("GetProducts")]
-        [Authorize(Roles = "Admin",Policy = Policies.RequireProductsView)]
+        [Authorize(Policy = Policies.RequireProductsView)]
         public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
