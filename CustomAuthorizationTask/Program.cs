@@ -119,8 +119,6 @@ namespace CustomAuthorizationTask
 
             app.UseAuthorization();
 
-            //app.UseMiddleware<PermissionMiddleware>();
-
             app.MapControllers();
 
             app.Run();

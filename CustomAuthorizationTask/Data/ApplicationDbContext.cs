@@ -28,7 +28,8 @@ namespace CustomAuthorizationTask.Data
             modelBuilder.Entity<IdentityRoleClaim<string>>().HasData(
                new IdentityRoleClaim<string> { Id = 1, RoleId = adminRoleId, ClaimType = "Permission", ClaimValue = Permissions.Permissions.Products.View },
                new IdentityRoleClaim<string> { Id = 2, RoleId = adminRoleId, ClaimType = "Permission", ClaimValue = Permissions.Permissions.Products.Create},
-               new IdentityRoleClaim<string> { Id = 3, RoleId = userRoleId, ClaimType = "Permission", ClaimValue = Permissions.Permissions.Catagory.View}
+               new IdentityRoleClaim<string> { Id = 3, RoleId = userRoleId, ClaimType = "Permission", ClaimValue = Permissions.Permissions.Catagory.View},
+               new IdentityRoleClaim<string> { Id = 4, RoleId =  adminRoleId, ClaimType = "Permission", ClaimValue = Permissions.Permissions.Products.Delete}
            );
         }
     }

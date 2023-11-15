@@ -88,8 +88,7 @@ namespace CustomAuthorizationTask.Controllers
             
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Email),
-
+                new Claim(ClaimTypes.Email, user.Email)
             };
 
             foreach (var role in roles.ToList())
